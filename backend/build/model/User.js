@@ -33,19 +33,12 @@ exports.UserSchema.pre('save', function (next) {
 exports.UserSchema.methods.comparePassword = function (candidatePassword, callback) {
     const user = this;
     bcrypt_1.default.compare(candidatePassword, user.password, (error, isMatch) => {
-        if (error) {
-            callback(error, false);
+        if (!isMatch) {
+            callback(new Error('Password does not match'), false);
         }
-        callback(null, isMatch);
+        else
+            callback(null, isMatch);
     });
 };
 exports.User = mongoose_1.default.model('User', exports.UserSchema);
 exports.default = exports.User;
-/*export interface UserModel extends Express.User {
-    email: string;
-    name: string;
-    address: string;
-    nickname: string;
-    password: string;
-    isAdmin: boolean;
-}*/ 

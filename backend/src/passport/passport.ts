@@ -5,16 +5,10 @@ import { User } from "../model/User";
 export const configurePassport = (passport: PassportStatic): PassportStatic => {
 
     passport.serializeUser((user: Express.User, done) => {
-        const newUser = {
-            ...user, 
-        }
-        console.log('serialize user: ' + user);
-        //User.findOne({user.username})
         done(null, user);
     });
 
     passport.deserializeUser((user: Express.User, done) => {
-        console.log('deserialize user: ' + user);
         done(null, user);
     });
     
@@ -26,7 +20,7 @@ export const configurePassport = (passport: PassportStatic): PassportStatic => {
                     if (error) {
                         done('Incorrect username or password.');
                     } else {
-                        done(null, user._id);
+                        done(null, user);
                     }
                 });
             } else {

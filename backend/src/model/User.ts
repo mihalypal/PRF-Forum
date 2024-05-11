@@ -43,10 +43,10 @@ UserSchema.pre<IUser>('save', function(next) {
 UserSchema.methods.comparePassword = function(candidatePassword: string, callback: (error: Error | null, isMatch: boolean) => void): void {
     const user = this;
     bcrypt.compare(candidatePassword, user.password, (error, isMatch) => {
-        if (error) {
-            callback(error, false);
+        if (!isMatch) {
+            callback(new Error('Password does not match'), false);
         }
-        callback(null, isMatch);
+        else callback(null, isMatch);
     });
 }
 
@@ -54,11 +54,24 @@ export const User: Model<IUser> = mongoose.model<IUser>('User', UserSchema);
 
 export default User;
 
-/*export interface UserModel extends Express.User {
-    email: string;
-    name: string;
-    address: string;
-    nickname: string;
-    password: string;
-    isAdmin: boolean;
-}*/
+declare global {
+    namespace Express {
+        export interface User {
+            email: string;
+            name: string;
+            address: string;
+            nickname: string;
+            password: string;
+            isAdmin: boolean;
+
+            /*constructor(email: string, name: string, address: string, nickname: string, password: string, isAdmin: boolean) {
+                this.email = email;
+                this.name = name;
+                this.address = address;
+                this.nickname = nickname;
+                this.password = password;
+                this.isAdmin = isAdmin;
+            }*/
+        }
+    }
+}

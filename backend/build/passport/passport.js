@@ -14,13 +14,9 @@ const passport_local_1 = require("passport-local");
 const User_1 = require("../model/User");
 const configurePassport = (passport) => {
     passport.serializeUser((user, done) => {
-        const newUser = Object.assign({}, user);
-        console.log('serialize user: ' + user);
-        //User.findOne({user.username})
         done(null, user);
     });
     passport.deserializeUser((user, done) => {
-        console.log('deserialize user: ' + user);
         done(null, user);
     });
     passport.use('local', new passport_local_1.Strategy((username, password, done) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,7 +28,7 @@ const configurePassport = (passport) => {
                         done('Incorrect username or password.');
                     }
                     else {
-                        done(null, user._id);
+                        done(null, user);
                     }
                 });
             }
