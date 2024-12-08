@@ -28,7 +28,9 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
-
+    //debug code
+    console.log('request url: ' + this.url + ':3000/app/login');
+    
     return this.http.post<User>(this.url + ':3000/app/login', body, {headers: headers, withCredentials: true});
   }
 
