@@ -7,13 +7,16 @@ import { User } from '../Model/User';
 })
 export class UserService {
 
+  //private readonly url: string = 'http://localhost';
+  private readonly url: string = 'http://91.214.112.223';
+
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<User[]>('http://localhost:3000/app/getAllUsers', {withCredentials: true});
+    return this.http.get<User[]>(this.url + ':3000/app/getAllUsers', {withCredentials: true});
   }
 
   deleteUser(userId: string) {
-    return this.http.delete(`http://localhost:3000/app/delete_user/${userId}`, {withCredentials: true, responseType: 'text'});
+    return this.http.delete(this.url + `:3000/app/delete_user/${userId}`, {withCredentials: true, responseType: 'text'});
   }
 }

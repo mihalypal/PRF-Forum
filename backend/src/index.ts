@@ -22,13 +22,14 @@ mongoose.connect(dbUrl).then(_ => {
 
 const whiteList = ['*'/*, 'http://192.168.1.101:4200'*/, 'http://localhost:4200']
 const corsOptions = {
-    origin: (origin: string | undefined, callback: (error: Error | null, allowed?: boolean) => void) => {
+    /*origin: (origin: string | undefined, callback: (error: Error | null, allowed?: boolean) => void) => {
         if (whiteList.indexOf(origin!) !== -1 || whiteList.includes('*')) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS.'));
         }
-    },
+    },*/
+    origin: true,
     credentials: true
 };
 app.use(cors(corsOptions));

@@ -8,18 +8,21 @@ import { Comment } from '../Model/Comment';
 })
 export class TopicService {
 
+  //private readonly url: string = 'http://localhost';
+  private readonly url: string = 'http://91.214.112.223';
+
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<Topic[]>('http://localhost:3000/app/all_topics', {withCredentials: true});
+    return this.http.get<Topic[]>(this.url + ':3000/app/all_topics', {withCredentials: true});
   }
 
   getTopic(topicId: string) {
-    return this.http.get<Topic>(`http://localhost:3000/app/topic/${topicId}`, {withCredentials: true});
+    return this.http.get<Topic>(`${this.url}:3000/app/topic/${topicId}`, {withCredentials: true});
   }
 
   getUserTopics() {
-    return this.http.get<Topic[]>('http://localhost:3000/app/my_topics', {withCredentials: true});
+    return this.http.get<Topic[]>(this.url + ':3000/app/my_topics', {withCredentials: true});
   }
 
   newTopic(title: string) {
@@ -30,11 +33,11 @@ export class TopicService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post<Topic>('http://localhost:3000/app/new_topic', body, {headers: headers, withCredentials: true});
+    return this.http.post<Topic>(this.url + ':3000/app/new_topic', body, {headers: headers, withCredentials: true});
   }
 
   deleteTopic(topicId: string) {
-    return this.http.delete(`http://localhost:3000/app/delete_topic/${topicId}`, {withCredentials: true, responseType: 'text'});
+    return this.http.delete(`${this.url}:3000/app/delete_topic/${topicId}`, {withCredentials: true, responseType: 'text'});
   }
 
   editTopic(topicId: string, title: string) {
@@ -45,7 +48,7 @@ export class TopicService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.put(`http://localhost:3000/app/edit_topic/${topicId}`, body, {headers: headers, withCredentials: true, responseType: 'text'});
+    return this.http.put(`${this.url}:3000/app/edit_topic/${topicId}`, body, {headers: headers, withCredentials: true, responseType: 'text'});
   }
 
   addComment(topicId: string, comment: string) {
@@ -56,7 +59,7 @@ export class TopicService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post<Comment>(`http://localhost:3000/app/new_comment/${topicId}`, body, {headers: headers, withCredentials: true});
+    return this.http.post<Comment>(`${this.url}:3000/app/new_comment/${topicId}`, body, {headers: headers, withCredentials: true});
   }
 
   editComment(topicId: string, commentId: string, comment: string) {
@@ -67,26 +70,26 @@ export class TopicService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.put(`http://localhost:3000/app/edit_comment/${topicId}/${commentId}`, body, {headers: headers, withCredentials: true, responseType: 'text'});
+    return this.http.put(`${this.url}:3000/app/edit_comment/${topicId}/${commentId}`, body, {headers: headers, withCredentials: true, responseType: 'text'});
   }
 
   deleteComment(topicId: string, commentId: string) {
-    return this.http.delete(`http://localhost:3000/app/delete_comment/${topicId}/${commentId}`, {withCredentials: true, responseType: 'text'});
+    return this.http.delete(`${this.url}:3000/app/delete_comment/${topicId}/${commentId}`, {withCredentials: true, responseType: 'text'});
   }
 
   likeComment(topicId: string, commentId: string) {
-    return this.http.put<Topic>(`http://localhost:3000/app/like_comment/${topicId}/${commentId}`, {}, {withCredentials: true});
+    return this.http.put<Topic>(`${this.url}:3000/app/like_comment/${topicId}/${commentId}`, {}, {withCredentials: true});
   }
 
   dislikeComment(topicId: string, commentId: string) {
-    return this.http.put<Topic>(`http://localhost:3000/app/dislike_comment/${topicId}/${commentId}`, {}, {withCredentials: true});
+    return this.http.put<Topic>(`${this.url}:3000/app/dislike_comment/${topicId}/${commentId}`, {}, {withCredentials: true});
   }
 
   likeTopic(topicId: string) {
-    return this.http.put<Topic>(`http://localhost:3000/app/like_topic/${topicId}`, {}, {withCredentials: true});
+    return this.http.put<Topic>(`${this.url}:3000/app/like_topic/${topicId}`, {}, {withCredentials: true});
   }
 
   dislikeTopic(topicId: string) {
-    return this.http.put<Topic>(`http://localhost:3000/app/dislike_topic/${topicId}`, {}, {withCredentials: true});
+    return this.http.put<Topic>(`${this.url}:3000/app/dislike_topic/${topicId}`, {}, {withCredentials: true});
   }
 }

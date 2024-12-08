@@ -7,6 +7,10 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+
+  //private readonly url: string = 'http://localhost';
+  private readonly url: string = 'http://91.214.112.223';
+
   private authStatusSource = new BehaviorSubject<boolean>(false);
   private adminStatusSource = new BehaviorSubject<boolean>(false);
   authStatus = this.authStatusSource.asObservable();
@@ -25,7 +29,7 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post<User>('http://localhost:3000/app/login', body, {headers: headers, withCredentials: true});
+    return this.http.post<User>(this.url + ':3000/app/login', body, {headers: headers, withCredentials: true});
   }
 
   register(user: User) {
@@ -42,25 +46,25 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post('http://localhost:3000/app/register', body, {headers: headers});
+    return this.http.post(this.url + ':3000/app/register', body, {headers: headers});
   }
 
   // logout
   logout() {
     // HTTP POST request
-    return this.http.post('http://localhost:3000/app/logout', {}, {withCredentials: true, responseType: 'text'});
+    return this.http.post(this.url + ':3000/app/logout', {}, {withCredentials: true, responseType: 'text'});
   }
 
   checkAuth() {
-    return this.http.get<boolean>('http://localhost:3000/app/checkAuth', {withCredentials: true, responseType: 'json'});
+    return this.http.get<boolean>(this.url + ':3000/app/checkAuth', {withCredentials: true, responseType: 'json'});
   }
 
   isAdmin() {
-    return this.http.get<boolean>('http://localhost:3000/app/isAdmin', {withCredentials: true, responseType: 'json'});
+    return this.http.get<boolean>(this.url + ':3000/app/isAdmin', {withCredentials: true, responseType: 'json'});
   }
 
   whoAmI() {
-    return this.http.get<User>('http://localhost:3000/app/currentUser', {withCredentials: true});
+    return this.http.get<User>(this.url + ':3000/app/currentUser', {withCredentials: true});
   }
 
   changeAuthStatus(status: boolean) {
