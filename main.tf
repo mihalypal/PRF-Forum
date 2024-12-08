@@ -105,7 +105,7 @@ resource "docker_container" "prometheus_container" {
   }
   restart = "always"
   volumes {
-    host_path      = "${path.module}/prometheus.yml" # Ez abszolút útvonalat biztosít
+    host_path      = "${abspath(path.module)}/prometheus.yml"
     container_path = "/etc/prometheus/prometheus.yml"
   }
 }
