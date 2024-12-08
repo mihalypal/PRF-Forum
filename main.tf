@@ -103,11 +103,11 @@ resource "docker_container" "prometheus_container" {
     internal = 9090
     external = 9090
   }
+  restart = "always"
   volumes {
-    host_path      = "${path.module}/prometheus.yml"
+    host_path      = "${path.module}/prometheus.yml" # Ez abszolút útvonalat biztosít
     container_path = "/etc/prometheus/prometheus.yml"
   }
-  restart = "always"
 }
 
 # Grafana
