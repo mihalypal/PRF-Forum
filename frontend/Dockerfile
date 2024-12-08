@@ -1,5 +1,5 @@
 # Alap image
-FROM node:20.11.1
+FROM node:20-alpine
 
 # Munkakönyvtár beállítása
 WORKDIR /app
@@ -18,4 +18,7 @@ RUN npm run build
 EXPOSE 4200
 
 # Angular alkalmazás indítása PM2-vel
-CMD ["pm2-runtime", "start", "http-server", "--name", "'angular-app'", "--", "4200", "-d", "false", "./dist/prf-forum/browser"]
+# CMD ["pm2-runtime", "start", "http-server", "--name", "angular-app", "--", "dist/prf-forum/browser", "-p", "4200"]
+# CMD ["pm2-runtime", "http-server", "--", "-p", "4200"]
+# CMD ["pm2-runtime", "http-server", "./dist/prf-forum/browser", "--", "-p", "4200"]
+CMD ["pm2-runtime", "start", "http-server", "--name", "angular-app", "--", "./dist/prf-forum/browser", "-p", "4200"]
