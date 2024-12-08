@@ -92,22 +92,30 @@ resource "docker_container" "nginx_container" {
 }
 
 # Prometheus
-resource "docker_image" "prometheus_image" {
-  name = "prom/prometheus:latest"
-}
+# resource "docker_image" "prometheus_image" {
+#   name = "prom/prometheus:latest"
+# }
 
-resource "docker_container" "prometheus_container" {
-  image = docker_image.prometheus_image.name
-  name  = "prometheus_container"
-  ports {
-    internal = 9090
-    external = 9090
-  }
-  restart = "always"
-  volumes {
-    host_path = "${abspath(path.module)}/prometheus.yml"
-    container_path = "/etc/prometheus/prometheus.yml"
-  }
+# resource "docker_container" "prometheus_container" {
+#   image = docker_image.prometheus_image.name
+#   name  = "prometheus_container"
+#   ports {
+#     internal = 9090
+#     external = 9090
+#   }
+#   restart = "always"
+#   volumes {
+#     host_path = "${abspath(path.module)}/prometheus.yml"
+#     container_path = "/etc/prometheus/prometheus.yml"
+#   }
+# }
+
+# Prometheus modul
+module "prometheus" {
+  source = "./modules/prometheus"
+  
+  network = docker_network.monitoring_network.name
+  nodejs_app_name = module.nodejs_app.container_name
 }
 
 # Grafana
