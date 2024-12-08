@@ -113,7 +113,7 @@ resource "docker_container" "nginx_container" {
 # Prometheus modul
 module "prometheus" {
   source = "./modules/prometheus"
-  
+
   depends_on = [docker_container.backend_container]
 }
 
@@ -130,5 +130,5 @@ resource "docker_container" "grafana_container" {
     external = 3100 # Mert a backend már foglalja a 3000-et
   }
   restart = "always"
-  depends_on = [docker_container.prometheus_container]
+  depends_on = [module.prometheus.prometheus_container]
 }
