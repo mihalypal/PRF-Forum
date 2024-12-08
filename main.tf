@@ -113,9 +113,6 @@ resource "docker_container" "nginx_container" {
 # Prometheus modul
 module "prometheus" {
   source = "./modules/prometheus"
-  
-  network = docker_network.monitoring_network.name
-  nodejs_app_name = module.nodejs_app.container_name
 }
 
 # Grafana
