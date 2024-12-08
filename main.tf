@@ -74,7 +74,7 @@ resource "docker_container" "frontend_container" {
 resource "docker_image" "nginx_image" {
   name = "nginx-reverse-proxy"
   build {
-    context    = "."
+    context    = "."  # A projekt gyökérmappa a build kontextus
     dockerfile = "nginx/Dockerfile"
   }
 }
