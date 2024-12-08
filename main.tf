@@ -90,3 +90,38 @@ resource "docker_container" "nginx_container" {
   restart = "always"
   depends_on = [docker_container.frontend_container]
 }
+
+# Prometheus
+resource "docker_image" "prometheus_image" {
+  name = "prom/prometheus:latest"
+}
+
+resource "docker_container" "prometheus_container" {
+  image = docker_image.prometheus_image.name
+  name  = "prometheus_container"
+  ports {
+    internal = 9090
+    external = 9090
+  }
+  volumes {
+    host_path      = "${path.module}/prometheus.yml"
+    container_path = "/etc/prometheus/prometheus.yml"
+  }
+  restart = "always"
+}
+
+# Grafana
+resource "docker_image" "grafana_image" {
+  name = "grafana/grafana:latest"
+}
+
+resource "docker_container" "grafana_container" {
+  image = docker_image.grafana_image.name
+  name  = "grafana_container"
+  ports {
+    internal = 3000
+    external = 3100 # Mert a backend már foglalja a 3000-et
+  }
+  restart = "always"
+  depends_on = [docker_container.prometheus_container]
+}
