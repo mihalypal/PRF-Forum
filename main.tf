@@ -94,9 +94,6 @@ resource "docker_container" "nginx_container" {
 # Prometheus
 resource "docker_image" "prometheus_image" {
   name = "prom/prometheus:latest"
-  build {
-    context = "."
-  }
 }
 
 resource "docker_container" "prometheus_container" {
@@ -108,7 +105,7 @@ resource "docker_container" "prometheus_container" {
   }
   restart = "always"
   volumes {
-    host_path = "/tmp/prometheus.yml"
+    host_path = "${abspath(path.module)}/prometheus.yml"
     container_path = "/etc/prometheus/prometheus.yml"
   }
 }
