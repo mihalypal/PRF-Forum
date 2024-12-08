@@ -17,4 +17,4 @@ FROM nginx:latest AS production-stage
 COPY --from=build-stage /app/frontend/dist/prf-forum/browser /usr/share/nginx/html
 
 # Másold át az Nginx konfigurációs fájlt
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
