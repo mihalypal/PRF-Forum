@@ -5,10 +5,11 @@ FROM node:20 AS build-stage
 RUN apt-get update && apt-get install -y git
 RUN git clone --branch devops https://github.com/mihalypal/PRF-Forum.git /app
 
-# Lépj be a frontend mappába és készítsd el a buildet
+
 WORKDIR /app/frontend
+RUN npm install -g @angular/cli@17.2.1
 RUN npm install
-RUN npm run build
+RUN ng build
 
 # Használj Nginx képet a végső szakaszhoz
 FROM nginx:latest AS production-stage
@@ -18,3 +19,5 @@ COPY --from=build-stage /app/frontend/dist/prf-forum/browser /usr/share/nginx/ht
 
 # Másold át az Nginx konfigurációs fájlt
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
