@@ -69,3 +69,23 @@ resource "docker_container" "frontend_container" {
   restart = "always"
   depends_on = [docker_container.backend_container]
 }
+
+# Nginx Image
+resource "docker_image" "nginx_image" {
+  name = "nginx-reverse-proxy"
+  build {
+    context    = "./nginx"
+  }
+}
+
+# Nginx Container
+resource "docker_container" "nginx_container" {
+  image = docker_image.nginx_image.name
+  name  = "nginx_container"
+  ports {
+    internal = 80
+    external = 80
+  }
+  restart = "always"
+  depends_on = [docker_container.frontend_container]
+}
