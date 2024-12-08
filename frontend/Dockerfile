@@ -12,6 +12,7 @@ RUN npm install -g @angular/cli@17.2.1
 RUN npm install -g pm2
 RUN npm install -g http-server
 RUN npm install
+RUN npm run build
 
 # Port megnyitása
 EXPOSE 4200
