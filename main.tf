@@ -94,6 +94,9 @@ resource "docker_container" "nginx_container" {
 # Prometheus
 resource "docker_image" "prometheus_image" {
   name = "prom/prometheus:latest"
+  build {
+    context = "."
+  }
 }
 
 resource "docker_container" "prometheus_container" {
