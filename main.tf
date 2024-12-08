@@ -46,9 +46,9 @@ resource "docker_container" "backend_container" {
   }
   restart = "always"
   depends_on = [docker_container.mongodb_container]
-  env = {
-    MONGO_URL = "mongodb://my_mongo_container:27017/my_db"
-  }
+  env = [
+    "MONGO_URL=mongodb://my_mongo_container:27017/my_db"
+  ]
 }
 
 # Frontend container
