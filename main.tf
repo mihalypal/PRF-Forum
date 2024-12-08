@@ -113,6 +113,8 @@ resource "docker_container" "nginx_container" {
 # Prometheus modul
 module "prometheus" {
   source = "./modules/prometheus"
+  
+  depends_on = [docker_container.backend_container]
 }
 
 # Grafana
