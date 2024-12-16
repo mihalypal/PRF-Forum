@@ -9,6 +9,9 @@ tmp/
 app/**/*.js
 app/**/*.js.map
 
+# backend build output
+backend/build/
+
 # dependencies
 node_modules/
 bower_components/
