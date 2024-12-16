@@ -7,13 +7,48 @@ import { Comment } from '../model/Comment';
 import { json } from 'body-parser';
 import { UsersLikesComment } from '../model/UsersLikesComment';
 import { UsersLikesTopic } from '../model/UsersLikesTopic';
+import { collectDefaultMetrics, Counter, Histogram, Registry } from 'prom-client';
+
+const register = new Registry();
+collectDefaultMetrics({ register });
+
+// Custom metrics
+const httpRequestCounter = new Counter({
+    name: 'http_request_total',
+    help: 'Total number of HTTP requests',
+    labelNames: ['method', 'route', 'status_code'],
+    registers: [register]
+});
+
+const httpRequestDurationHistogram = new Histogram({
+    name: 'http_request_duration_seconds',
+    help: 'Duration of HTTP requests in seconds',
+    labelNames: ['method', 'route', 'status_code'],
+    registers: [register]
+});
 
 export const configureRoutes = (passport: PassportStatic, router: Router): Router => {    
+
+    router.use((req: Request, res: Response, next: NextFunction) => {
+        const end = httpRequestDurationHistogram.startTimer();
+        res.on('finish', () => {
+            httpRequestCounter.inc({ method: req.method, route: req.path, status_code: res.statusCode });
+            end({ method: req.method, route: req.path, status_code: res.statusCode });
+        });
+        next();
+    });
 
     router.get('/', (req: Request, res: Response) => {
         res.write('The server is available at the moment.');
         res.status(200).end(`Wow it's working`);
     });
+
+    // Metrics  endpoint
+    router.get('/metrics', async (req: Request, res: Response) => {
+        res.set('Content-Type', register.contentType);
+        res.end(await register.metrics());
+    });
+        
 
     // User endpoints
     // Log in
