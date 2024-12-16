@@ -33,12 +33,12 @@ resource "docker_container" "grafana" {
   # }
   
   volumes {
-    host_path      = "/workspace/grafana/provisioning/datasources"
+    host_path      = "/var/jenkins_home/workspace/MEAN-Stack-Pipeline/modules/grafana/provisioning/datasources"
     container_path = "/etc/grafana/provisioning/datasources"
   }
 
   volumes {
-    host_path      = "/workspace/grafana/provisioning/dashboards"
+    host_path      = "/var/jenkins_home/workspace/MEAN-Stack-Pipeline/modules/grafana/provisioning/dashboards"
     container_path = "/etc/grafana/provisioning/dashboards"
   }
 }
