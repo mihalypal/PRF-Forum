@@ -118,17 +118,24 @@ module "prometheus" {
 }
 
 # Grafana
-resource "docker_image" "grafana_image" {
-  name = "grafana/grafana:latest"
-}
+# resource "docker_image" "grafana_image" {
+#   name = "grafana/grafana:latest"
+# }
+# 
+# resource "docker_container" "grafana_container" {
+#   image = docker_image.grafana_image.name
+#   name  = "grafana_container"
+#   ports {
+#     internal = 3000
+#     external = 3100 # Mert a backend már foglalja a 3000-et
+#   }
+#   restart = "always"
+#   depends_on = [module.prometheus.prometheus_container]
+# }
 
-resource "docker_container" "grafana_container" {
-  image = docker_image.grafana_image.name
-  name  = "grafana_container"
-  ports {
-    internal = 3000
-    external = 3100 # Mert a backend már foglalja a 3000-et
-  }
-  restart = "always"
-  depends_on = [module.prometheus.prometheus_container]
+# Grafana modul
+module "grafana" {
+  source = "./modules/grafana"
+  
+  prometheus_url = "http://91.214.112.223:9090"
 }
