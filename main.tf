@@ -138,4 +138,5 @@ module "grafana" {
   source = "./modules/grafana"
   
   prometheus_url = "http://91.214.112.223:9090"
+  depends_on = [module.prometheus.prometheus_container]
 }
