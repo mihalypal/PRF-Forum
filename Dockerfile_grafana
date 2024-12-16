@@ -1,0 +1,3 @@
+grafana/grafana:latest
+
+COPY modules/grafana/provisioning /etc/grafana/provisioning

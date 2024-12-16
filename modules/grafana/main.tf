@@ -8,8 +8,17 @@ terraform {
   }
 }
 
+# resource "docker_image" "grafana" {
+#   name = "grafana/grafana:latest"
+# }
+
 resource "docker_image" "grafana" {
-  name = "grafana/grafana:latest"
+  name = "custom-grafana:latest"
+  build {
+    context = "."
+    dockerfile = "Dockerfile_grafana"
+    no_cache = true
+  }
 }
 
 resource "docker_container" "grafana" {

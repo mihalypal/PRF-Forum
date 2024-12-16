@@ -7,6 +7,6 @@ scrape_configs:
       - targets: ['91.214.112.223:3000']
     metrics_path: /app/metrics
 
-  - job_name: "nginx"
-    static_configs:
-      - targets: ['91.214.112.223:80']
+#  - job_name: "nginx"
+#    static_configs:
+#      - targets: ['91.214.112.223:80']
