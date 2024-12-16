@@ -14,6 +14,7 @@ terraform {
 
 resource "docker_image" "grafana" {
   name = "custom-grafana:latest"
+  force_remove = true
   build {
     context = "."
     dockerfile = "Dockerfile_grafana"
