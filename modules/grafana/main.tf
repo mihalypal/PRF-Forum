@@ -26,8 +26,19 @@ resource "docker_container" "grafana" {
     "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource"  # Opcionális plugin-ek
   ]
 
+  # előző verzió
+  # volumes {
+  #   host_path      = "/workspace/grafana/provisioning"
+  #   container_path = "/etc/grafana/provisioning"
+  # }
+  
   volumes {
-    host_path      = "/workspace/grafana/provisioning"
-    container_path = "/etc/grafana/provisioning"
+    host_path      = "/workspace/grafana/provisioning/datasources"
+    container_path = "/etc/grafana/provisioning/datasources"
+  }
+
+  volumes {
+    host_path      = "/workspace/grafana/provisioning/dashboards"
+    container_path = "/etc/grafana/provisioning/dashboards"
   }
 }
